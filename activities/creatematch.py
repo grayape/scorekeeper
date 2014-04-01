@@ -43,7 +43,7 @@ class Creatematch(Activity):
 
         
         #Create Match
-        match = Match(team_a = teamA, team_b = teamB, score_a = 0, score_b = 0)
+        match = Match(teama = teamA, teamb = teamB, scorea = 0, scoreb = 0)
    
         return match
 

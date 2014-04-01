@@ -45,23 +45,23 @@ class Match(Base):
     __tablename__ = 'matches'
 
     id = Column(Integer,Sequence('match_id_seq'),primary_key=True)
-    score_a = Column(Integer,default = int(0), nullable = False)
-    score_b = Column(Integer,default = int(0), nullable = False)
-    team_a_id = Column(Integer,ForeignKey('teams.id'))
-    team_a = relationship('Team', backref=backref('matches_a', order_by=id),foreign_keys=team_a_id)
-    team_b_id = Column(Integer,ForeignKey('teams.id'))
-    team_b = relationship('Team', backref=backref('matches_b', order_by=id),foreign_keys=team_b_id)
+    scorea = Column(Integer,default = int(0), nullable = False)
+    scoreb = Column(Integer,default = int(0), nullable = False)
+    teama_id = Column(Integer,ForeignKey('teams.id'))
+    teama = relationship('Team', backref=backref('matches_a', order_by=id),foreign_keys=teama_id)
+    teamb_id = Column(Integer,ForeignKey('teams.id'))
+    teamb = relationship('Team', backref=backref('matches_b', order_by=id),foreign_keys=teamb_id)
     created_at = Column(DateTime, default=func.now())
 
-    #def __repr__(self):
-    #    return "<Match(team_a='%s', score_a='%s', team_b='%s', score_b='%s')>" % (self.team_a, self.score_a, self.team_b, self.score_b)
+   
+
 
     def asDict(self):
         return {
-            "score_a"       : self.score_a    ,
-            "score_b"       : self.score_b    ,
-            "team_a"     : self.team_a  ,
-            "team_b"     : self.team_b  ,
+            "scorea"       : self.scorea    ,
+            "scoreb"       : self.scoreb    ,
+            "teama"     : self.teama  ,
+            "teamb"     : self.teamb  ,
             "created_at"    : str(self.created_at)
 
 
@@ -74,6 +74,7 @@ class Team(Base):
     name = Column(String)
     players = relationship('Player',secondary='player_team',backref='teams')
     created_at = Column(DateTime, default=func.now())
+
 
     def matches(self):
         return self.matches_a + self.matches_b
@@ -120,17 +121,27 @@ def dropSchema():
 
 def initData():
     session = sessionmaker(bind=engine)()
+    p1 =  Player(name='Rasmus',   rfid='1')
+    p2 =  Player(name='Kim',   rfid='2')
 
     try:
         p = [ \
-                Player(name='Rasmus',   rfid='1'),\
-                Player(name='Kim',      rfid='2'),\
+                p1,\
+                p2,\
                 Player(name='Simon',    rfid='3'),\
                 Player(name='Alex',     rfid='4'),\
                 Player(name='Mikael',   rfid='5')\
             ]
         session.add_all(p)
 
+        session.commit()
+
+        teamA = Team.createOrLoad([p1],session)
+        teamB = Team.createOrLoad([p2],session)
+        session.commit()
+        match = Match(teama = teamA, teamb = teamB, scorea = 10, scoreb = 0)
+
+        session.add(match)
         session.commit()
     except:
         print(traceback.format_exc())

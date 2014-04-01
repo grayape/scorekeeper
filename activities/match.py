@@ -30,24 +30,24 @@ class Match(Activity):
     def team_scored(self, team):
        
         if team == 'a':
-            scoring_team = self.match.team_a;
-            self.match.score_a = self.match.score_a + 1
+            scoring_team = self.match.teama;
+            self.match.scorea = self.match.scorea + 1
         elif team == 'b':
-            scoring_team = self.match.team_b;
-            self.match.score_b = self.match.score_b + 1
+            scoring_team = self.match.teamb;
+            self.match.scoreb = self.match.scoreb + 1
         else:
             print ("Who the hell scored")
         
         print("Some scored it was team: " + scoring_team.name)
-        print("Score is now: %s - %s" % (self.match.score_a  ,self.match.score_b))
+        print("Score is now: %s - %s" % (self.match.scorea  ,self.match.scoreb))
         # Broadcast to display
 
         self.updateLayout()
 
 
     def updateLayout(self):
-        self.invokeLayoutFunction("updateScoreA",self.match.score_a)
-        self.invokeLayoutFunction("updateScoreB",self.match.score_b)
+        self.invokeLayoutFunction("updateScoreA",self.match.scorea)
+        self.invokeLayoutFunction("updateScoreB",self.match.scoreb)
             
 
     

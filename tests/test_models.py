@@ -147,7 +147,22 @@ class ModelsTest(unittest.TestCase):
     def test_team_createOrLoad_players_empty(self):
         #run
         self.assertRaises(Exception, Team.createOrLoad,(None,self.session))
+     
+    def test_match_asDict(self):
+        #run 
+
+        match = self.session.query(Team).filter_by(rfid='1').first()
         
+        self.assertEqual(match.asDict(), {
+            "scorea":10,
+            "scoreb":0,
+            "teama":['1'],
+            "teamb":['1']
+         
+
+            })
+
+
 
 if __name__ == '__main__':
     unittest.main()
