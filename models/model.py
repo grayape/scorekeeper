@@ -6,11 +6,12 @@ from sqlalchemy import create_engine, Column, Integer, String, Sequence, Table, 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, backref
 from datetime import datetime
-import config
+from red.config import config
+from red.utils.run_once import run_once
 import traceback
 
 Base = declarative_base()
-engine = create_engine(config.Config.get("database","connectionstring"),echo=False)
+engine = create_engine(config.get("Database","connectionstring"),echo=False)
 
 #################################################################################################################
 ################################## Table used to connect players and to teams ###################################
@@ -142,4 +143,8 @@ If we do it like that we will get even more statistics available, and we have di
 goals being scored anyways. Please note that this is not something we need immediately, but it might worth implementing later.
 """
 
-initSchema()
+@run_once
+def init():
+    initSchema();
+
+init()
