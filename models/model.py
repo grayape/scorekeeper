@@ -6,11 +6,11 @@ from sqlalchemy import create_engine, Column, Integer, String, Sequence, Table, 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, backref
 from datetime import datetime
-import config
+from red.config import config
 import traceback
 
 Base = declarative_base()
-engine = create_engine(config.Config.get("database","connectionstring"),echo=False)
+engine = create_engine(config.get("Database","connectionstring"),echo=False)
 
 #################################################################################################################
 ################################## Table used to connect players and to teams ###################################
