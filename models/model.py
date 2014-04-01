@@ -53,9 +53,19 @@ class Match(Base):
     team_b = relationship('Team', backref=backref('matches_b', order_by=id),foreign_keys=team_b_id)
     created_at = Column(DateTime, default=func.now())
 
-    def __repr__(self):
-        return "<Match(team_a='%s', score_a='%s', team_b='%s', score_b='%s')>" % (self.team_a, self.score_a, self.team_b, self.score_b)
+    #def __repr__(self):
+    #    return "<Match(team_a='%s', score_a='%s', team_b='%s', score_b='%s')>" % (self.team_a, self.score_a, self.team_b, self.score_b)
 
+    def asDict(self):
+        return {
+            "score_a"       : self.score_a    ,
+            "score_b"       : self.score_b    ,
+            "team_a"     : self.team_a  ,
+            "team_b"     : self.team_b  ,
+            "created_at"    : str(self.created_at)
+
+
+        }
 #################################################################################################################
 class Team(Base):
     __tablename__ = 'teams'
