@@ -131,3 +131,5 @@ I am considering changing matches such that their not only include the final res
 If we do it like that we will get even more statistics available, and we have discussed having automatic notices of 
 goals being scored anyways. Please note that this is not something we need immediately, but it might worth implementing later.
 """
+
+initSchema()
