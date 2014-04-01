@@ -1,38 +1,47 @@
-#!/usr/bin/python
+
 import unittest
+
+
 from red.config import config
 print config.sections()
 config.read('config/test_conf.conf') # must be called before importing models to ensure memory based db
 print config.sections()
-from models.model import Player, Match, Team, initSchema, dropSchema, sessionmaker, engine
+from models.model import Player, Match, Team, initData, initSchema, dropSchema, sessionmaker, engine
 print config.sections()
 
 Session = sessionmaker(bind=engine)
 
 
-class ModelsTest(unittest.TestCase):
+class Test_ModelsTest(unittest.TestCase):
 
     def setUp(self):
         initSchema()
+
         self.session = Session()
 
     def tearDown(self):
         self.session.close()
         dropSchema()
 
-    def test_player_createOrLoad_same(self):
+    def testPass(self):
+        """Test case A. note that all test method names must begin with 'test.'"""
+        assert True 
+
+    
+
+    def testPlayercreateOrLoadSame(self):
         playerA = Player.createOrLoad('1',self.session)
         self.session.commit()
         playerB = Player.createOrLoad('1',self.session)
         self.assertEqual(playerA,playerB)
 
-    def test_player_createOrLoad_different(self):
+    def testPlayer_createOrLoad_different(self):
         playerA = Player.createOrLoad('1',self.session)
         self.session.commit()
         playerB = Player.createOrLoad('2',self.session)
         self.assertNotEqual(playerA,playerB)
 
-    def test_team_createOrLoad_existingPlayer_same(self):
+    def testTeam_createOrLoad_existingPlayer_same(self):
         #setup
         player = Player(rfid='1',name='1')
         self.session.add(player)
@@ -148,21 +157,22 @@ class ModelsTest(unittest.TestCase):
         #run
         self.assertRaises(Exception, Team.createOrLoad,(None,self.session))
      
-    def test_match_asDict(self):
+    def testMatchasDict(self):
         #run 
-
-        match = self.session.query(Team).filter_by(rfid='1').first()
+        initData()
+        match = self.session.query(Match).first()
         
         self.assertEqual(match.asDict(), {
             "scorea":10,
             "scoreb":0,
             "teama":['1'],
-            "teamb":['1']
+            "teamb":['2']
          
 
             })
+ 
 
 
-
-if __name__ == '__main__':
-    unittest.main()
+          
+if __name__ == "__main__":
+    unittest.main() # run all tests
