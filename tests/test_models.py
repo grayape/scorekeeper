@@ -1,8 +1,11 @@
 #!/usr/bin/python
 import unittest
-import config
-config.initConfig('config/test_conf.conf') # must be called before importing models to ensure memory based db
+from red.config import config
+print config.sections()
+config.read('config/test_conf.conf') # must be called before importing models to ensure memory based db
+print config.sections()
 from models.model import Player, Match, Team, initSchema, dropSchema, sessionmaker, engine
+print config.sections()
 
 Session = sessionmaker(bind=engine)
 
