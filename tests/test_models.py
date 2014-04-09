@@ -1,19 +1,16 @@
+#test_models.py
 
 import unittest
 
 
 from red.config import config
-print config.sections()
 config.read('config/test_conf.conf') # must be called before importing models to ensure memory based db
-print config.sections()
 from models.model import Player, Match, Team, initData, initSchema, dropSchema, sessionmaker, engine
-print config.sections()
 
 Session = sessionmaker(bind=engine)
 
 
 class Test_ModelsTest(unittest.TestCase):
-
     def setUp(self):
         initSchema()
 
@@ -29,19 +26,19 @@ class Test_ModelsTest(unittest.TestCase):
 
     
 
-    def testPlayercreateOrLoadSame(self):
+    def testPlayerCreateOrLoadSame(self):
         playerA = Player.createOrLoad('1',self.session)
         self.session.commit()
         playerB = Player.createOrLoad('1',self.session)
         self.assertEqual(playerA,playerB)
 
-    def testPlayer_createOrLoad_different(self):
+    def testPlayerCreateOrLoadDifferent(self):
         playerA = Player.createOrLoad('1',self.session)
         self.session.commit()
         playerB = Player.createOrLoad('2',self.session)
         self.assertNotEqual(playerA,playerB)
 
-    def testTeam_createOrLoad_existingPlayer_same(self):
+    def testTeamCreateOrLoadExistingPlayerSame(self):
         #setup
         player = Player(rfid='1',name='1')
         self.session.add(player)
@@ -53,7 +50,7 @@ class Test_ModelsTest(unittest.TestCase):
         teamB = Team.createOrLoad([player],self.session)
         self.assertEqual(teamA,teamB)
 
-    def test_team_createOrLoad_existingPlayers_same(self):
+    def testTeamCreateOrLoadExistingPlayersSame(self):
         #setup
         player1 = Player(rfid='1',name='1')
         player2 = Player(rfid='2',name='2')
@@ -67,7 +64,7 @@ class Test_ModelsTest(unittest.TestCase):
         teamB = Team.createOrLoad([player1,player2],self.session)
         self.assertEqual(teamA,teamB)
 
-    def test_team_createOrLoad_existingPlayer_different(self):
+    def testTeamCreateOrLoadExistingPlayerDifferent(self):
         #setup
         player1 = Player(rfid='1',name='1')
         player2 = Player(rfid='2',name='2')
@@ -81,7 +78,7 @@ class Test_ModelsTest(unittest.TestCase):
         teamB = Team.createOrLoad([player2],self.session)
         self.assertNotEqual(teamA,teamB)
 
-    def test_team_createOrLoad_existingPlayers_different(self):
+    def testTeamCreateOrLoadExistingPlayersDifferent(self):
         #setup
         player1 = Player(rfid='1',name='1')
         player2 = Player(rfid='2',name='2')
@@ -99,7 +96,7 @@ class Test_ModelsTest(unittest.TestCase):
         teamB = Team.createOrLoad([player3,player4],self.session)
         self.assertNotEqual(teamA,teamB)
 
-    def test_team_createOrLoad_newPlayer_same(self):
+    def testTeamCreateOrLoadNewPlayerSame(self):
         #setup
         player = Player(rfid='1',name='1')
         #run
@@ -110,7 +107,7 @@ class Test_ModelsTest(unittest.TestCase):
         teamB = Team.createOrLoad([player],self.session)
         self.assertEqual(teamA,teamB)
 
-    def test_team_createOrLoad_newPlayers_same(self):
+    def testTeamCreateOrLoadNewPlayersSame(self):
         #setup
         player1 = Player(rfid='1',name='1')
         player2 = Player(rfid='2',name='2')
@@ -122,7 +119,7 @@ class Test_ModelsTest(unittest.TestCase):
         teamB = Team.createOrLoad([player1,player2],self.session)
         self.assertEqual(teamA,teamB)
 
-    def test_team_createOrLoad_newPlayer_different(self):
+    def testTeamCreateOrLoadNewPlayerDifferent(self):
         #setup
         player1 = Player(rfid='1',name='1')
         player2 = Player(rfid='2',name='2')
@@ -134,7 +131,7 @@ class Test_ModelsTest(unittest.TestCase):
         teamB = Team.createOrLoad([player2],self.session)
         self.assertNotEqual(teamA,teamB)
 
-    def test_team_createOrLoad_newPlayers_different(self):
+    def testTeamCreateOrLoadNewPlayersDifferent(self):
         #setup
         player1 = Player(rfid='1',name='1')
         player2 = Player(rfid='2',name='2')
@@ -149,15 +146,15 @@ class Test_ModelsTest(unittest.TestCase):
         self.assertNotEqual(teamA,teamB)
 
 
-    def test_team_createOrLoad_players_empty(self):
+    def testTeamCreateOrLoadPlayersEmpty(self):
         #run
         self.assertRaises(Exception, Team.createOrLoad,([],self.session))
         
-    def test_team_createOrLoad_players_empty(self):
+    def testTeamCreateOrLoadPlayersEmpty(self):
         #run
         self.assertRaises(Exception, Team.createOrLoad,(None,self.session))
      
-    def testMatchasDict(self):
+    def testMatchAsDict(self):
         #run 
         initData()
         match = self.session.query(Match).first()

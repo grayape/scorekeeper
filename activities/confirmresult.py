@@ -15,13 +15,15 @@ class Confirmresult (Activity):
             if message["data"] == "confirm":
                 self.saveMatch()
             elif message["data"] == "cancel":
-                self.switchActivity("match", data=self.match.asDict())
-        
+                self.cancel()
         else:
             self.logger.critical("We " + __file__ +" received something (message), but we are unsure what it is")
       
     def saveMatch(self):
         self.session.commit()
-        self.send("synchronize", head= "match" ,data=self.match.asDict())
+        self.send("synchronize", head= "match", data=self.match.asDict())
         self.switchActivity("mainmenu")
+
+    def cancel(self):
+        self.switchActivity("match", data=self.match)
         
