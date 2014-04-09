@@ -44,3 +44,4 @@ database.db-journal
 
 #settings folders
 .settings/*
+config/individual.conf
