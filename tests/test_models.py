@@ -7,24 +7,18 @@ from red.config import config
 config.read('config/test_conf.conf') # must be called before importing models to ensure memory based db
 from models.model import Player, Match, Team, initData, initSchema, dropSchema, sessionmaker, engine
 
-Session = sessionmaker(bind=engine)
 
 
-class Test_ModelsTest(unittest.TestCase):
+class Test_Models(unittest.TestCase):
     def setUp(self):
         initSchema()
 
-        self.session = Session()
+        self.session = sessionmaker(bind=engine)()
 
     def tearDown(self):
         self.session.close()
         dropSchema()
 
-    def testPass(self):
-        """Test case A. note that all test method names must begin with 'test.'"""
-        assert True 
-
-    
 
     def testPlayerCreateOrLoadSame(self):
         playerA = Player.createOrLoad('1',self.session)
@@ -145,12 +139,11 @@ class Test_ModelsTest(unittest.TestCase):
         teamB = Team.createOrLoad([player3,player4],self.session)
         self.assertNotEqual(teamA,teamB)
 
-
     def testTeamCreateOrLoadPlayersEmpty(self):
         #run
         self.assertRaises(Exception, Team.createOrLoad,([],self.session))
         
-    def testTeamCreateOrLoadPlayersEmpty(self):
+    def testTeamCreateOrLoadPlayersEmpty2(self):
         #run
         self.assertRaises(Exception, Team.createOrLoad,(None,self.session))
      

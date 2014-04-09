@@ -38,8 +38,8 @@ class Creatematch(Activity):
             self.invokeLayoutFunction("updateErrorMessage","At least two players")
             raise Exception("You need to add players to both teams you fool!")
 
-        teamA = Team.createOrLoad(self.playersTeamA,self.session)
-        teamB = Team.createOrLoad(self.playersTeamB,self.session)
+        teamA = Team.createOrLoad(self.playersTeamA, self.session)
+        teamB = Team.createOrLoad(self.playersTeamB, self.session)
 
         
         #Create Match
