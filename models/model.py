@@ -60,9 +60,9 @@ class Match(Base):
         return {
             "scorea"       : self.scorea    ,
             "scoreb"       : self.scoreb    ,
-            "teama"     : self.teama  ,
-            "teamb"     : self.teamb  ,
-            "created_at"    : str(self.created_at)
+            "teama"     : map(lambda x: x.rfid , self.teama.players),
+            "teamb"     : map(lambda x: x.rfid , self.teamb.players)
+            
 
 
         }

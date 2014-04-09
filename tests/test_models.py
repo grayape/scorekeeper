@@ -1,21 +1,30 @@
 #test_models.py
+
 import unittest
+
+
 from red.config import config
 config.read('config/test_conf.conf') # must be called before importing models to ensure memory based db
-from models.model import Player, Match, Team, initSchema, dropSchema, sessionmaker, engine
+from models.model import Player, Match, Team, initData, initSchema, dropSchema, sessionmaker, engine
 
 Session = sessionmaker(bind=engine)
 
 
-class Test_ModelTest(unittest.TestCase):
-
+class Test_ModelsTest(unittest.TestCase):
     def setUp(self):
         initSchema()
+
         self.session = Session()
 
     def tearDown(self):
         self.session.close()
         dropSchema()
+
+    def testPass(self):
+        """Test case A. note that all test method names must begin with 'test.'"""
+        assert True 
+
+    
 
     def testPlayerCreateOrLoadSame(self):
         playerA = Player.createOrLoad('1',self.session)
@@ -147,19 +156,20 @@ class Test_ModelTest(unittest.TestCase):
      
     def testMatchAsDict(self):
         #run 
-
-        match = self.session.query(Team).filter_by(rfid='1').first()
+        initData()
+        match = self.session.query(Match).first()
         
         self.assertEqual(match.asDict(), {
             "scorea":10,
             "scoreb":0,
             "teama":['1'],
-            "teamb":['1']
+            "teamb":['2']
          
 
             })
+ 
 
 
-
-if __name__ == '__main__':
-    unittest.main()
+          
+if __name__ == "__main__":
+    unittest.main() # run all tests
