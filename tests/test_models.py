@@ -1,16 +1,18 @@
 #test_models.py
 
 import unittest
-
-
-from red.config import config
-config.read('config/test_conf.conf') # must be called before importing models to ensure memory based db
+from red.config import config, initConfig
 from models.model import Player, Match, Team, initData, initSchema, dropSchema, sessionmaker, engine
 
 Session = sessionmaker(bind=engine)
 
 
 class Test_ModelsTest(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(self):
+        initConfig("test_meta.conf")
+
     def setUp(self):
         initSchema()
 
