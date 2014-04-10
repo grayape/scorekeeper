@@ -52,8 +52,7 @@ class Match(Base):
     teamb_id = Column(Integer,ForeignKey('teams.id'))
     teamb = relationship('Team', backref=backref('matches_b', order_by=id),foreign_keys=teamb_id)
     created_at = Column(DateTime, default=func.now())
-
-   
+  
 
 
     def asDict(self):
