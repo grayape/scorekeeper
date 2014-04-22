@@ -28,7 +28,7 @@ class Synchronize(Service, Thread):
 
 
     def syncMatch(self, data):
-         data['location'] = self.location
+        data['location'] = self.location
         r = requests.post(self.serverurl + '/match', data=json.dumps(data))
 
 
