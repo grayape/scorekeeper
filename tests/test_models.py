@@ -14,7 +14,6 @@ class Test_Models(unittest.TestCase):
 
     def setUp(self):
         initSchema()
-
         self.session = sessionmaker(bind=engine)()
 
     def tearDown(self):
