@@ -1,6 +1,3 @@
-
-
-
 from red.activity import Activity
 
 
@@ -17,10 +14,9 @@ class Mainmenu(Activity):
         """ Receives stuff """
         if message["head"] == "button_clicked":          
             if message["data"] == "new_match":
-                
                 self.switchActivity("creatematch")
             elif message["data"] == "recent_matches":
-                self.switchActivity("recent")
+                self.switchActivity("recentmatches")
             elif message["data"] == "get_serial":
                 self.switchActivity("serial")
         else:

@@ -54,17 +54,18 @@ class Match(Base):
     created_at = Column(DateTime, default=func.now())
   
 
-
     def asDict(self):
         return {
             "scorea"       : self.scorea    ,
             "scoreb"       : self.scoreb    ,
             "teama"     : map(lambda x: x.rfid , self.teama.players),
             "teamb"     : map(lambda x: x.rfid , self.teamb.players)
-            
-
-
         }
+
+    @staticmethod
+    def getRecent(session):
+        return session.query(Match).order_by(-Match.id).limit(1).first()
+
 #################################################################################################################
 class Team(Base):
     __tablename__ = 'teams'

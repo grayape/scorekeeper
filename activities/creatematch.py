@@ -4,20 +4,18 @@ from models.model import Match, Player, Team, Base, initSchema
 
 class Creatematch(Activity):
     
-
     def onCreate(self,data):
         self.playersTeamA = []
         self.playersTeamB = []
-
         self.setLayout("match_setup")
         if data != None and len(data) > 0:
             for rfid in data:
                 self.loadPlayer(rfid)
-        self.send("lpc",{"head":'get_tag'})
+        else:
+            self.send("lpc",{"head":'get_tag'})
     
 
     def receiveDisplayMessage(self, message):
-
         if message["head"] == "echo":
             return 
         if message["data"] == "start_match":
@@ -40,11 +38,9 @@ class Creatematch(Activity):
 
         teamA = Team.createOrLoad(self.playersTeamA, self.session)
         teamB = Team.createOrLoad(self.playersTeamB, self.session)
-
         
         #Create Match
         match = Match(teama = teamA, teamb = teamB, scorea = 0, scoreb = 0)
-   
         return match
 
         
@@ -59,7 +55,6 @@ class Creatematch(Activity):
             self.invokeLayoutFunction("updateErrorMessage","Max 8 players")
             self.send("lpc",{"head":'get_tag'})
             return
-
 
         player = Player.createOrLoad(playerRfid, self.session)
         if player not in self.playersTeamA and player not in self.playersTeamB:
@@ -77,5 +72,3 @@ class Creatematch(Activity):
             self.send("display",{"head":"call_func","data":{"func":"updateTeamA","param":reduce(lambda x,y: x+"\n"+y,map(lambda player:player.name,self.playersTeamA))}})
         if len(self.playersTeamB) > 0:
             self.send("display",{"head":"call_func","data":{"func":"updateTeamB","param":reduce(lambda x,y: x+"\n"+y,map(lambda player:player.name,self.playersTeamB))}})
-        
-        

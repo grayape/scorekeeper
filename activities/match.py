@@ -20,15 +20,12 @@ class Match(Activity):
         else:
             print("We (match) received something (message), but we are unsure what it is")
       
-    
 
     def end_match(self):
-               
-        #print ("Ending match and saving the results at time: "+self.match.created_at.strftime("%Y-%m-%d %H:%M:%S"))
         self.switchActivity("confirmresult", data=self.match)
         
+        
     def team_scored(self, team):
-       
         if team == 'a':
             scoring_team = self.match.teama;
             self.match.scorea = self.match.scorea + 1
@@ -41,7 +38,6 @@ class Match(Activity):
         print("Some scored it was team: " + scoring_team.name)
         print("Score is now: %s - %s" % (self.match.scorea  ,self.match.scoreb))
         # Broadcast to display
-
         self.updateLayout()
 
 

@@ -66,6 +66,5 @@ Core.Interface {
        
         text: qsTr("(no player scanned)")
         horizontalAlignment: Text.AlignRight
-   
     }
 }

@@ -15,7 +15,6 @@ class Serial(Activity):
             
     def receiveDisplayMessage(self, message):
         if message["head"]=="button_clicked" and message["data"] == "okay":
-
             self.send("lpc",{'head':'stop_operations'})
             self.switchActivity("mainmenu")
             
