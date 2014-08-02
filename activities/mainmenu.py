@@ -24,7 +24,10 @@ class Mainmenu(Activity):
 
     def receiveLpcMessage(self,message):
         if message["head"]=="tag":
-            self.switchActivity("creatematch",[message["data"]]) #it expects a list of rfids
+            if len(message["data"]) > 0:
+                self.switchActivity("creatematch",[message["data"]]) #it expects a list of rfids
+            else:
+                self.send("lpc",{"head":'get_tag'})
 
     def receiveSynchronizeMessage(self, message):
         print message

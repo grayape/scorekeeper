@@ -46,7 +46,10 @@ class Creatematch(Activity):
         
     def receiveLpcMessage(self,message):
         if message["head"]=="tag":
-            self.loadPlayer(message["data"])
+            if len(message["data"]) > 0:
+                self.loadPlayer(message["data"])
+            else:
+                self.send("lpc",{"head":'get_tag'})
             
             
     def loadPlayer(self,playerRfid):
